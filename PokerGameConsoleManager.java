@@ -15,12 +15,19 @@ public class PokerGameConsoleManager extends PokerGameManager {
     @Override
     public void play() {
         displayMessage(); // welcome message
+        introduceRules(); // introduce the rules
         /* Initialize the game setting */
         initializeGameSetting();
         /* Play the game */
-            for (Player player : getPokerGame().getPlayers()) {
+        for (Player player : getPokerGame().getPlayers()) {
                 playATurn(player);
         }
+        concludeGame();
+    }
+
+    @Override
+    public void introduceRules() {
+
     }
 
     @Override
@@ -40,7 +47,7 @@ public class PokerGameConsoleManager extends PokerGameManager {
 
     public void playATurn(Player player) {
         boolean isPlayerTurnOver = false;
-            System.out.println(player.getName() + "'s Card Decks:");
+            setAndDisplayMessage(player.getName() + "'s Card Decks:");
             for (CardDeck cardDeck : player.getCardDecks()) {
                 System.out.print(cardDeck);
                 System.out.println();
@@ -57,19 +64,20 @@ public class PokerGameConsoleManager extends PokerGameManager {
         System.out.println(getMessage());
     }
 
-    private int askForNumDecks() { // numDecks has to be greater than or equal to 4
+    @Override
+    public int askForNumDecks() { // numDecks has to be greater than or equal to 4
         boolean isNumDecksValid = false;
         int numDecks = 0;
         while (!isNumDecksValid) {
             try {
                 numDecks = askForInt("Enter the number of decks per player: ");
                 if (numDecks < 4) {
-                    System.out.println("Invalid input! The number of decks per player must be greater than or equal to 4.");
+                    setAndDisplayMessage("Invalid input! The number of decks per player must be greater than or equal to 4.");
                 } else {
                     isNumDecksValid = true;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input! The number of decks per player must be an integer.");
+                setAndDisplayMessage("Invalid input! The number of decks per player must be an integer.");
                 scanner.next(); // NEW: discard invalid token to prevent infinite loop
             }
         }
@@ -77,19 +85,20 @@ public class PokerGameConsoleManager extends PokerGameManager {
         return numDecks;
     }
 
-    private int askForNumPlayers() { // numPlayers has to be greater than or equal to 2
+    @Override
+    public int askForNumPlayers() { // numPlayers has to be greater than or equal to 2
         boolean isNumPlayersValid = false;
         int numPlayers = 0;
         while (!isNumPlayersValid) {
             try {
                 numPlayers = askForInt("Enter the number of players: ");
                 if (numPlayers < 2) {
-                    System.out.println("Invalid input! The number of players must be greater than or equal to 2.");
+                    setAndDisplayMessage("Invalid input! The number of players must be greater than or equal to 2.");
                 } else {
                     isNumPlayersValid = true;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input! The number of players must be an integer.");
+                setAndDisplayMessage("Invalid input! The number of players must be an integer.");
                 scanner.next(); // NEW: discard invalid token to prevent infinite loop
             }
         }
@@ -97,12 +106,14 @@ public class PokerGameConsoleManager extends PokerGameManager {
         return numPlayers;
     }
 
-    private int askForInt(String prompt) throws InputMismatchException { // use scanner to get int input
+    @Override
+    public int askForInt(String prompt) throws InputMismatchException { // use scanner to get int input
         System.out.print(prompt);
         return scanner.nextInt();
     }
 
-    private String askForPlayerName(int playerNumber) {
+    @Override
+    public String askForPlayerName(int playerNumber) {
         boolean isPlayerNameValid = false;
         String playerName = "";
         while (!isPlayerNameValid) {
@@ -110,14 +121,15 @@ public class PokerGameConsoleManager extends PokerGameManager {
                 playerName = askForString("Enter the name of Player #" + playerNumber + ": ");
                 isPlayerNameValid = true;
             } catch (NoSuchElementException e) {
-                System.out.println("Invalid input for player name!");
+                setAndDisplayMessage("Invalid input for player name!");
                 scanner.next(); // NEW: discard invalid token to prevent infinite loop
             }
         }
         return playerName;
     }
 
-    private String askForString(String prompt) throws NoSuchElementException {
+    @Override
+    public String askForString(String prompt) throws NoSuchElementException {
         System.out.print(prompt);
         return scanner.nextLine();
     }
