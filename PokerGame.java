@@ -92,7 +92,7 @@ public class PokerGame {
         return true;
     }
 
-    public Player getThePlayerWhoseTurnIsUp() {
+    public Player getCurrentPlayer() { // return the player that should be playing for this current turn
         return players[turnMonitor];
     }
 

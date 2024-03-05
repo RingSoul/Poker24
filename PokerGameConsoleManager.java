@@ -37,7 +37,7 @@ public class PokerGameConsoleManager extends PokerGameManager {
         numPlayers = askForNumPlayers();
         Player[] players = new Player[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
-            String name = askForPlayerName(i);
+            String name = askForPlayerName();
             Player player = new Player(name);
             players[i] = player;
         }
@@ -65,72 +65,24 @@ public class PokerGameConsoleManager extends PokerGameManager {
     }
 
     @Override
-    public int askForNumDecks() { // numDecks has to be greater than or equal to 4
-        boolean isNumDecksValid = false;
-        int numDecks = 0;
-        while (!isNumDecksValid) {
-            try {
-                numDecks = askForInt("Enter the number of decks per player: ");
-                if (numDecks < 4) {
-                    setAndDisplayMessage("Invalid input! The number of decks per player must be greater than or equal to 4.");
-                } else {
-                    isNumDecksValid = true;
-                }
-            } catch (InputMismatchException e) {
-                setAndDisplayMessage("Invalid input! The number of decks per player must be an integer.");
-                scanner.next(); // NEW: discard invalid token to prevent infinite loop
-            }
-        }
-        scanner.nextLine(); // for nextInt, used for console output formatting
-        return numDecks;
-    }
-
-    @Override
-    public int askForNumPlayers() { // numPlayers has to be greater than or equal to 2
-        boolean isNumPlayersValid = false;
-        int numPlayers = 0;
-        while (!isNumPlayersValid) {
-            try {
-                numPlayers = askForInt("Enter the number of players: ");
-                if (numPlayers < 2) {
-                    setAndDisplayMessage("Invalid input! The number of players must be greater than or equal to 2.");
-                } else {
-                    isNumPlayersValid = true;
-                }
-            } catch (InputMismatchException e) {
-                setAndDisplayMessage("Invalid input! The number of players must be an integer.");
-                scanner.next(); // NEW: discard invalid token to prevent infinite loop
-            }
-        }
-        scanner.nextLine(); // for nextInt, used for console output formatting
-        return numPlayers;
-    }
-
-    @Override
     public int askForInt(String prompt) throws InputMismatchException { // use scanner to get int input
         System.out.print(prompt);
         return scanner.nextInt();
     }
 
     @Override
-    public String askForPlayerName(int playerNumber) {
-        boolean isPlayerNameValid = false;
-        String playerName = "";
-        while (!isPlayerNameValid) {
-            try {
-                playerName = askForString("Enter the name of Player #" + playerNumber + ": ");
-                isPlayerNameValid = true;
-            } catch (NoSuchElementException e) {
-                setAndDisplayMessage("Invalid input for player name!");
-                scanner.next(); // NEW: discard invalid token to prevent infinite loop
-            }
-        }
-        return playerName;
+    public String askForString(String prompt) throws NoSuchElementException { // use scanner to get String input
+        System.out.print(prompt);
+        return scanner.nextLine();
     }
 
     @Override
-    public String askForString(String prompt) throws NoSuchElementException {
-        System.out.print(prompt);
-        return scanner.nextLine();
+    public void cleanFormat() { // used after nextInt
+        scanner.nextLine();
+    }
+
+    @Override
+    public void discardUnneededInput() {
+        scanner.next(); // NEW: discard invalid token (input) to prevent infinite loop, since the discarding is not automatic
     }
 }
