@@ -41,6 +41,9 @@ public class Player {
         return true;
     }
 
+    // giveTheTopCardFromDeckTo(Player player, CardDeck cardDeck)
+    // addCardFromBagToDeck(CardDeck cardDeck)
+
     public String decksToString() {
         StringBuilder builder = new StringBuilder();
         for (CardDeck deck : cardDecks) {
