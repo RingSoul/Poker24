@@ -12,12 +12,11 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
      * warns if an exception/error is detected (invalid user input, for example)
      * etc.
      */
-    private String prompt; // different from message since it asks the user to enter something
+    private String body; // different from message since it displays larger String
 
     public PokerGameManager() { // default constructor that solely initialize message
         pokerGame = null;
         message = "";
-        prompt = "";
     }
 
     private void createPokerGame(Player[] players, int numDecks) { // method to initialize the PokerGame object
@@ -54,22 +53,28 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
         concludeGame();
     }
     private void turnOf(Player player) { // let the current player make their moves (helper of play)
+        setAndDisplayMessage("This is " + player.getName() + "'s turn!");
         boolean isPlayerTurnOver = false;
-        setAndDisplayMessage(player.getName() + "'s Card Decks:");
+        StringBuilder bodyBuilder = new StringBuilder();
+        bodyBuilder.append(player.getName() + "'s card decks: ");
         for (CardDeck cardDeck : player.getCardDecks()) {
+            bodyBuilder.append(cardDeck.showTop().toString()).append(" ");
+        }
+        while (!isPlayerTurnOver) {
+            setAndDisplayBody(bodyBuilder.toString());
 
         }
     }
     private void concludeGame() { // conclude the game by announcing winner based on the score, etc. (helper of play)
 
     }
-    public void setAndDisplayMessage(String message) { // combines set and display for convenience
+    private void setAndDisplayMessage(String message) { // combines set and display for convenience
         setMessage(message);
         displayMessage(); // relies on subclass implementation
     }
-    public void setAndDisplayPrompt(String prompt) { // combines set and display for convenience
-        setPrompt(prompt);
-        displayPrompt();
+    private void setAndDisplayBody(String body) {
+        setBody(body);
+        displayBody(); // relies on subclass implementation
     }
 
     // ask for inputs; rely on the subclasses' implementations of askForInt, askForString, cleanFormat and discardUnneededInput
@@ -126,6 +131,9 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
         cleanFormat();
         return playerName;
     }
+    private String askForArithmeticExpression() {
+
+    }
 
 
     /* accessors and mutators of fields */
@@ -147,10 +155,17 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
     public void setPokerGame(PokerGame pokerGame) { // mutator
         this.pokerGame = pokerGame;
     }
+    public String getBody() { // accessor
+        return body;
+    }
+    public void setBody(String body) { // mutator
+        this.body = body;
+    }
 
     /* differing implementations of these methods for console and GUI (due to different ways to display),
-                             abstract keyword forces subclasses to override them */
+                                 abstract keyword forces subclasses to override them */
     public abstract void displayMessage(); // display message relating to the status of the game
+    public abstract void displayBody(); // display body (larger than and separate from message), such as the card decks that the player have
     public abstract void displayPrompt(); // display prompt for the user to enter what is asked of
     // prompts for user's answers based on the desired data type
     public abstract int askForInt(String prompt) throws InputMismatchException; // helper of askForInt
