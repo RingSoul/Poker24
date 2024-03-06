@@ -79,8 +79,8 @@ public class PokerGame {
         return turnMonitor;
     }
 
-    public void incrementTurnMonitor() {
-        turnMonitor = (turnMonitor + 1) % numPlayers;
+    public void setTurnMonitor(int turnMonitor) {
+        this.turnMonitor = turnMonitor;
     }
 
     /* Other methods that help the game facilitates */
@@ -92,9 +92,13 @@ public class PokerGame {
         return true;
     }
 
-    public Player getCurrentPlayer() { // return the player that should be playing for this current turn
-        return players[turnMonitor];
+    public Player getNextPlayer() { // return the player that should be playing for the next turn (AUTO-increment solely by this method call)
+        return players[incrementTurnMonitor()];
     }
+
+    private int incrementTurnMonitor() {
+        return (turnMonitor + 1) % numPlayers;
+    } // helper of getNextPlayer
 
     public String decksOfCurrentPlayerToString() {
         return players[turnMonitor].decksToString();
