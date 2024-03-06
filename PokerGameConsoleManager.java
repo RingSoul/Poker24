@@ -24,13 +24,13 @@ public class PokerGameConsoleManager extends PokerGameManager {
 
     @Override
     public int askForInt(String prompt) throws InputMismatchException { // use scanner to get int input
-        System.out.print(prompt);
+        setAndDisplayPrompt(prompt);
         return scanner.nextInt();
     }
 
     @Override
     public String askForString(String prompt) throws NoSuchElementException { // use scanner to get String input
-        System.out.print(prompt);
+        setAndDisplayPrompt(prompt);
         return scanner.nextLine();
     }
 

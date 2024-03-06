@@ -63,11 +63,11 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
     private void concludeGame() { // conclude the game by announcing winner based on the score, etc. (helper of play)
 
     }
-    private void setAndDisplayMessage(String message) { // combines set and display for convenience
+    public void setAndDisplayMessage(String message) { // combines set and display for convenience
         setMessage(message);
         displayMessage(); // relies on subclass implementation
     }
-    private void setAndDisplayPrompt(String prompt) {
+    public void setAndDisplayPrompt(String prompt) { // combines set and display for convenience
         setPrompt(prompt);
         displayPrompt();
     }
@@ -129,31 +129,24 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
 
 
     /* accessors and mutators of fields */
-
     public String getMessage() { // accessor
         return message;
     }
-
     public void setMessage(String message) { // mutator
         this.message = message;
     }
-
     public String getPrompt() {
         return prompt;
     }
-
     public void setPrompt(String prompt) {
         this.prompt = prompt;
     }
-
     public PokerGame getPokerGame() { // accessor
         return pokerGame;
     }
-
     public void setPokerGame(PokerGame pokerGame) { // mutator
         this.pokerGame = pokerGame;
     }
-
 
     /* differing implementations of these methods for console and GUI (due to different ways to display),
                              abstract keyword forces subclasses to override them */
