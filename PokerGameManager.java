@@ -12,10 +12,12 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
      * warns if an exception/error is detected (invalid user input, for example)
      * etc.
      */
+    private String prompt; // different from message since it asks the user to enter something
 
     public PokerGameManager() { // default constructor that solely initialize message
         pokerGame = null;
         message = "";
+        prompt = "";
     }
 
     private void createPokerGame(Player[] players, int numDecks) { // method to initialize the PokerGame object
@@ -52,37 +54,26 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
         concludeGame();
     }
     private void turnOf(Player player) { // let the current player make their moves (helper of play)
+        boolean isPlayerTurnOver = false;
+        setAndDisplayMessage(player.getName() + "'s Card Decks:");
+        for (CardDeck cardDeck : player.getCardDecks()) {
 
+        }
     }
     private void concludeGame() { // conclude the game by announcing winner based on the score, etc. (helper of play)
 
     }
-
-    public void setAndDisplayMessage(String message) { // combines set and display for convenience
+    private void setAndDisplayMessage(String message) { // combines set and display for convenience
         setMessage(message);
         displayMessage(); // relies on subclass implementation
     }
-
-    /* accessors and mutators of fields */
-
-    public String getMessage() { // accessor
-        return message;
-    }
-
-    public void setMessage(String message) { // mutator
-        this.message = message;
-    }
-
-    public PokerGame getPokerGame() { // accessor
-        return pokerGame;
-    }
-
-    public void setPokerGame(PokerGame pokerGame) { // mutator
-        this.pokerGame = pokerGame;
+    private void setAndDisplayPrompt(String prompt) {
+        setPrompt(prompt);
+        displayPrompt();
     }
 
     // ask for inputs; rely on the subclasses' implementations of askForInt, askForString, cleanFormat and discardUnneededInput
-    public int askForNumDecks() { // ask for the number of decks per player
+    private int askForNumDecks() { // ask for the number of decks per player
         boolean isNumDecksValid = false;
         int numDecks = 0;
         while (!isNumDecksValid) {
@@ -101,7 +92,7 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
         cleanFormat();
         return numDecks;
     }
-    public int askForNumPlayers() { // ask for the number of players
+    private int askForNumPlayers() { // ask for the number of players
         boolean isNumPlayersValid = false;
         int numPlayers = 0;
         while (!isNumPlayersValid) {
@@ -120,7 +111,7 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
         cleanFormat();
         return numPlayers;
     }
-    public String askForPlayerName() { // ask for the name of a player
+    private String askForPlayerName() { // ask for the name of a player
         boolean isPlayerNameValid = false;
         String playerName = "";
         while (!isPlayerNameValid) {
@@ -137,9 +128,37 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
     }
 
 
+    /* accessors and mutators of fields */
+
+    public String getMessage() { // accessor
+        return message;
+    }
+
+    public void setMessage(String message) { // mutator
+        this.message = message;
+    }
+
+    public String getPrompt() {
+        return prompt;
+    }
+
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
+    }
+
+    public PokerGame getPokerGame() { // accessor
+        return pokerGame;
+    }
+
+    public void setPokerGame(PokerGame pokerGame) { // mutator
+        this.pokerGame = pokerGame;
+    }
+
+
     /* differing implementations of these methods for console and GUI (due to different ways to display),
                              abstract keyword forces subclasses to override them */
     public abstract void displayMessage(); // display message relating to the status of the game
+    public abstract void displayPrompt(); // display prompt for the user to enter what is asked of
     // prompts for user's answers based on the desired data type
     public abstract int askForInt(String prompt) throws InputMismatchException; // helper of askForInt
     public abstract String askForString(String prompt) throws NoSuchElementException; // helper of askForString

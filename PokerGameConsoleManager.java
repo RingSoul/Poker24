@@ -12,18 +12,14 @@ public class PokerGameConsoleManager extends PokerGameManager {
         scanner = new Scanner(System.in);
     }
 
-    public void turnOf(Player player) {
-        boolean isPlayerTurnOver = false;
-            setAndDisplayMessage(player.getName() + "'s Card Decks:");
-            for (CardDeck cardDeck : player.getCardDecks()) {
-                System.out.print(cardDeck);
-                System.out.println();
-            }
-    }
-
     @Override
     public void displayMessage() {
         System.out.println(getMessage());
+    }
+
+    @Override
+    public void displayPrompt() {
+        System.out.print(getPrompt());
     }
 
     @Override
