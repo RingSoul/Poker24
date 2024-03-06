@@ -12,51 +12,13 @@ public class PokerGameConsoleManager extends PokerGameManager {
         scanner = new Scanner(System.in);
     }
 
-    @Override
-    public void play() {
-        displayMessage(); // welcome message
-        introduceRules(); // introduce the rules
-        /* Initialize the game setting */
-        initializeGameSetting();
-        /* Play the game */
-        for (Player player : getPokerGame().getPlayers()) {
-                playATurn(player);
-        }
-        concludeGame();
-    }
-
-    @Override
-    public void introduceRules() {
-
-    }
-
-    @Override
-    public void initializeGameSetting() {
-        int numPlayers = 0;
-        int numDecks = 0;
-        numPlayers = askForNumPlayers();
-        Player[] players = new Player[numPlayers];
-        for (int i = 0; i < numPlayers; i++) {
-            String name = askForPlayerName();
-            Player player = new Player(name);
-            players[i] = player;
-        }
-        numDecks = askForNumDecks();
-        createPokerGame(players, numDecks);
-    }
-
-    public void playATurn(Player player) {
+    public void turnOf(Player player) {
         boolean isPlayerTurnOver = false;
             setAndDisplayMessage(player.getName() + "'s Card Decks:");
             for (CardDeck cardDeck : player.getCardDecks()) {
                 System.out.print(cardDeck);
                 System.out.println();
             }
-    }
-
-    @Override
-    public void concludeGame() {
-
     }
 
     @Override
