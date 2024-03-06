@@ -24,13 +24,6 @@ public class PokerGame {
 
     /* Pre-game, private helper methods */
 
-    private void createPlayers(String[] names) { // Question: where to get the names? --> from front end
-        players = new Player[numPlayers];
-        for (int p = 0; p < players.length; p++) {
-            players[p] = new Player(names[p]);
-        }
-    }
-
     private void createCardDecksForPlayers() {
         // make sure that the cards are distributed evenly from the bag to decks (some will be leftover)
         int cardsPerDeck = CardBag.MAX_CAPACITY / players.length / numDecks;
