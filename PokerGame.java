@@ -8,6 +8,8 @@ public class PokerGame {
     private int numPlayers;
     private Player[] players;
     private int turnMonitor; // represents the index in the array players, the player whose turn is up
+    private int winningResult = 24; // default 24
+
 
     public PokerGame(Player[] players) { // "default" constructor
         this(players, DEFAULT_NUM_DECKS);
@@ -74,6 +76,14 @@ public class PokerGame {
 
     public void setTurnMonitor(int turnMonitor) {
         this.turnMonitor = turnMonitor;
+    }
+
+    public int getWinningResult() {
+        return winningResult;
+    }
+
+    public void setWinningResult(int winningResult) {
+        this.winningResult = winningResult;
     }
 
     /* Other methods that help the game facilitates */
