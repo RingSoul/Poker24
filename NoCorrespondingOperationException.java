@@ -1,6 +1,4 @@
-import java.util.NoSuchElementException;
-
-public class NoCorrespondingOperationException extends NoSuchElementException {
+public class NoCorrespondingOperationException extends InvalidUserInputException {
     public NoCorrespondingOperationException(String message) {
         super(message);
     }
