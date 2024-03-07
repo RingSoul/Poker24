@@ -8,21 +8,33 @@ public final class CardBag {
 
     public CardBag() {
         cards = new Card[numCards];
-        fill(cards);
         randIndexGenerator = new Random();
+        fillAndShuffle();
     }
 
-    private void fill(Card[] cards) {
+    private void fillAndShuffle() {
+        fill();
+        shuffle();
+    }
+
+    private void fill() {
         int index = 0; // index of the array cards
         for (CardValue value : CardValue.values()) { // for all 13 values
             for (CardSuit suit : CardSuit.values()) { // for all 4 suits
-                cards[index] = new Card(false, value, suit);
+                cards[index] = new NormalCard(suit, value);
                 index++;
             }
         } // by the end of the nested loops, indices 0 to 51 will be filled with cards
-        /* last two indices will always contain joker */
-        cards[numCards - 2] = new Card(true, null, null); // joker
-        cards[numCards - 1] = new Card(true, null, null); // joker
+        /* last two indices of a newly-filled bag will always contain joker */
+        cards[numCards - 2] = new JokerCard(); // joker
+        cards[numCards - 1] = new JokerCard(); // joker
+    }
+
+    private void shuffle() {
+        Card[] newlyArrangedCards = new Card[MAX_CAPACITY];
+        for (int i = 0; i < MAX_CAPACITY; i++)
+            newlyArrangedCards[i] = drawRandomCard(true);
+        cards = newlyArrangedCards;
     }
 
     // deck = the CardDeck object to place card in
@@ -31,29 +43,24 @@ public final class CardBag {
     public void assignCardsToDeck(CardDeck deck, int numCards) {
         Deque<Card> deque = new Deque<>();
         for (int i = 0; i < numCards; i++) {
-            deque.addToFront(drawRandomCard(false)); // to ensure fair game, joker is not included in the beginning
+            deque.addToFront(drawRandomCard(false)); // to ensure fair game, joker is not included in anyone's deck for the start of the game
         }
         deck.setDeque(deque);
     } // by the end of the method, deck will contain <numCards> Card objects
 
-    // private helper that uses randIndexGenerator to remove an entry from CardBag and return it
+    // uses randIndexGenerator to remove an entry from CardBag and return it
+    // parameter used to determine if a JokerCard object can be returned
     public Card drawRandomCard(boolean shouldIncludeJokers) {
-        if (numCards > 0) {
-            int adjustRange = 0; // 0 if joker included, 2 otherwise
-            if (!shouldIncludeJokers)
-                adjustRange = 2; // possible range of indices would be reduced by 2 if joker not wanted
-            Card randomCard = null;
-            int index = 0;
-            while (randomCard == null) {
-                index = randIndexGenerator.nextInt(MAX_CAPACITY - adjustRange);
-                randomCard = cards[index];
+        Card randomCard = null;
+        randomCard = cards[randIndexGenerator.nextInt(MAX_CAPACITY)];
+        if (!shouldIncludeJokers) {
+            boolean isJoker = (randomCard instanceof JokerCard);
+            while (isJoker) {
+                randomCard = cards[randIndexGenerator.nextInt(MAX_CAPACITY)];
+                isJoker = (randomCard instanceof JokerCard);
             }
-            cards[index] = null;
-            numCards--;
-            return randomCard;
-        } else { // if empty
-            return null;
         }
+        return randomCard;
     }
 
     public Card[] getCards() {
