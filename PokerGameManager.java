@@ -132,7 +132,21 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
         return playerName;
     }
     private String askForArithmeticExpression() {
+        boolean isExpressionValid = false;
+        String expression = "";
+        while (!isExpressionValid) {
+            try {
+                expression = askForString("Enter the arithmetic expression for evaluating to "+ pokerGame.getWinningResult() +": ");
+                isExpressionValid = true;
+            } catch (NoSuchElementException e) {
+                setAndDisplayMessage("Invalid input for player name!");
+                discardUnneededInput();
+            } catch (InvalidUserInputException e) {
 
+            }
+        }
+        cleanFormat();
+        return expression;
     }
 
 
@@ -142,12 +156,6 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
     }
     public void setMessage(String message) { // mutator
         this.message = message;
-    }
-    public String getPrompt() {
-        return prompt;
-    }
-    public void setPrompt(String prompt) {
-        this.prompt = prompt;
     }
     public PokerGame getPokerGame() { // accessor
         return pokerGame;
