@@ -109,14 +109,14 @@ public enum Operation {
 
     // this static method helps to calculate an Operation enum with given operands
     // throw exception to remind the programmer if forget to update the Operation enum methods after adding more operations
-    public static double calculateOperation(int firstOperand, Operation operation, int secondOperand)
+    public static double calculateOperation(double firstOperand, Operation operation, double secondOperand)
             throws NoCorrespondingOperationException {
         double result = 0;
         switch (operation) {
             case ADD -> result = firstOperand + secondOperand;
             case SUBTRACT -> result = firstOperand - secondOperand;
             case MULTIPLY -> result = firstOperand * secondOperand;
-            case DIVIDE -> result = (double) firstOperand / secondOperand;
+            case DIVIDE -> result = firstOperand / secondOperand;
             case MODULUS -> result = firstOperand % secondOperand;
             case EXPONENT -> result = Math.pow(firstOperand, secondOperand);
             case SINE -> result = Math.sin(secondOperand);
