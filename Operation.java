@@ -140,6 +140,6 @@ public enum Operation {
         for (Operation operation : Operation.values())
             if (operation.getSymbol().length() > maxLength)
                 maxLength = operation.getSymbol().length();
-        return maxLength
+        return maxLength;
     }
 }
