@@ -18,19 +18,19 @@ public class PokerGameConsoleManager extends PokerGameManager {
     }
 
     @Override
-    public void displayPrompt() {
-        System.out.print(getPrompt());
+    public void displayBody() {
+        System.out.println(getBody());
     }
 
     @Override
     public int askForInt(String prompt) throws InputMismatchException { // use scanner to get int input
-        setAndDisplayPrompt(prompt);
+        System.out.print(prompt);
         return scanner.nextInt();
     }
 
     @Override
     public String askForString(String prompt) throws NoSuchElementException { // use scanner to get String input
-        setAndDisplayPrompt(prompt);
+        System.out.print(prompt);
         return scanner.nextLine();
     }
 

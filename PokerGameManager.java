@@ -174,7 +174,6 @@ public abstract class PokerGameManager { // subclasses = the intersection betwee
                                  abstract keyword forces subclasses to override them */
     public abstract void displayMessage(); // display message relating to the status of the game
     public abstract void displayBody(); // display body (larger than and separate from message), such as the card decks that the player have
-    public abstract void displayPrompt(); // display prompt for the user to enter what is asked of
     // prompts for user's answers based on the desired data type
     public abstract int askForInt(String prompt) throws InputMismatchException; // helper of askForInt
     public abstract String askForString(String prompt) throws NoSuchElementException; // helper of askForString
