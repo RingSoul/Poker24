@@ -16,4 +16,4 @@
 - `throws` and `throw` used together in a method; `throws` in the method signature, `throw` in the implementation
 - But `try` and `catch` blocks should be used by client methods, not by the method itself that throws the exception
 - Programmer-Defined Exception by using the `extends` keyword with relevant built-in superclasses
-- Inheritance: Overriding methods that throw exceptions means the subclass version can only throw the same or fewer number of exceptions, and these exceptions should be the exact same type or relevant subclasses
+- Inheritance: Overriding methods that throw **unchecked** exceptions means the subclass version can only throw the same or fewer number of exceptions, and these exceptions should be the exact same type or relevant subclasses (whereas checked exceptions do not need to adhere to these rules, e.g. UnsupportedOperationException in Card's subclasses)
