@@ -159,6 +159,12 @@ public enum Operation {
 
     // this static method helps to calculate an Operation enum with given operands
     // throw exception to remind the programmer if forget to update the Operation enum methods after adding more operations
+    // EXCEPTIONS:
+    // - division or modulus by 0 = illegal
+    // - 0 raised to the 0th power = undefined = illegal
+    // - tangent, cosecant, secant, cotangent = watch out for infinite discontinuity (DOUBLE.<infinity_constant>? limit only)
+    // - arcsin arccos arccsc arcsec limited domain
+    // - log input must be greater than zero (if 0, limit only)
     public static double calculateOperation(double firstOperand, Operation operation, double secondOperand)
             throws InvalidUserInputException {
         double result = 0;
@@ -207,14 +213,5 @@ public enum Operation {
             result *= i;
         }
         return result;
-    }
-
-    // inefficient, but better practice than hardcoding in CalculatorUtility (when tracking operator length)
-    public static int getTheLengthOfTheLongestPossibleOperator() {
-        int maxLength = 0;
-        for (Operation operation : Operation.values())
-            if (operation.getSymbol().length() > maxLength)
-                maxLength = operation.getSymbol().length();
-        return maxLength;
     }
 }
