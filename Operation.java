@@ -1,8 +1,8 @@
 public enum Operation {
 
     LEFT_PARENTHESIS("(", 0),
-    // will never have right parenthesis operation
-    // number of input is irrelevant for parentheses
+    // will never have right parenthesis operation (see CalculatorUtility calculateInfix method implementation)
+    // and the number of input is irrelevant for parentheses
     ADD("+", 2), SUBTRACT("-", 2),
     MULTIPLY("*", 2), DIVIDE("/", 2), MODULUS("%", 2),
     EXPONENT("^", 2),
@@ -18,10 +18,10 @@ public enum Operation {
 
     private String symbol; // string representation of the operation
     private int numInputsNeeded;
-    // numInputsNeeded = the minimum number of input needed to exclusively perform this operation
+    // numInputsNeeded = the minimum number of input needed to exclusively perform an operation
     // (i.e. the simplest form of addition is a+b -> addition's numInput is 2)
     private int precedence;
-    private static final int PARENTHESIS_PRECEDENCE_SPECIAL = 0;
+    private static final int PARENTHESIS_SPECIAL_PRECEDENCE = 0; // precedence is not applicable for parentheses when using stack to evaluate
     private static final int ADD_SUBTRACT_PRECEDENCE = 1;
     private static final int MULTIPLY_DIVIDE_MODULUS_PRECEDENCE = 2;
     private static final int EXPONENT_TRIG_LOG_FACTORIAL_PRECEDENCE = 3;
@@ -37,7 +37,7 @@ public enum Operation {
     // throw exception to remind the programmer if forget to update the Operation enum methods after adding more operations
     private void assignPrecedence(String symbol) throws OperationNotFoundException {
         switch (symbol) {
-            case "(" -> precedence = PARENTHESIS_PRECEDENCE_SPECIAL;
+            case "(" -> precedence = PARENTHESIS_SPECIAL_PRECEDENCE;
             case "+", "-" -> precedence = ADD_SUBTRACT_PRECEDENCE;
             case "*", "/", "%" -> precedence = MULTIPLY_DIVIDE_MODULUS_PRECEDENCE;
             case "^",
@@ -209,7 +209,7 @@ public enum Operation {
         return result;
     }
 
-    // inefficient, but better practice than hardcoding in CalculatorUtilityCalculatorUtility (when tracking operator length)
+    // inefficient, but better practice than hardcoding in CalculatorUtility (when tracking operator length)
     public static int getTheLengthOfTheLongestPossibleOperator() {
         int maxLength = 0;
         for (Operation operation : Operation.values())
