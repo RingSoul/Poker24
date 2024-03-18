@@ -23,6 +23,19 @@ public class CardDeck {
         deque.addToBack(card);
     }
 
+    public void removeFromTop() {
+        deque.removeFromFront();
+    }
+
+    // gameplay move: Remove a card from the current deck's top,
+    // and add the removed card to the bottom of another deck after changing its visibility if it is non-Joker
+    public void removeFromTopAndHideUnderAnotherDeck(CardDeck deck) {
+        Card card = deque.removeFromFront();
+        if (card instanceof NormalCard)
+            card.setVisible(false);
+        deck.addToBottom(card);
+    }
+
     public boolean hasNoCard() {
         return deque.isEmpty();
     }
