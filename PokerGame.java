@@ -1,14 +1,17 @@
+import java.util.LinkedList;
+
 public class PokerGame {
 
     private CardBag cardBag;
     private int numDecks; // equivalent to:
     // 1) number of cards available for calculation manipulation
-    // 2) number of CardDeck stacks
+    // 2) number of CardDeck objects per player
     private static final int DEFAULT_NUM_DECKS = 4; // standard game with 4 decks
     private int numPlayers;
     private Player[] players;
     private int turnMonitor; // represents the index in the array players, the player whose turn is up
-    private int winningResult = 24; // default 24
+    private int desiredCalculationResult; // represents what the calculations should aim towards; default 24
+    private LinkedList<ActionRecord> actionRecordList;
 
 
     public PokerGame(Player[] players) { // "default" constructor
@@ -22,21 +25,22 @@ public class PokerGame {
         this.players = players;
         createCardDecksForPlayers();
         turnMonitor = (int) (Math.random() * numPlayers); // randomized starting player
+        actionRecordList = new LinkedList<>();
     }
 
     /* Pre-game, private helper methods */
 
     private void createCardDecksForPlayers() {
         // make sure that the cards are distributed evenly from the bag to decks (some will be leftover)
-        int cardsPerDeck = CardBag.MAX_CAPACITY / players.length / numDecks;
-        for (int p = 0; p < players.length; p++) {
+        int cardsPerDeck = CardBag.MAX_CAPACITY / (numPlayers * numDecks);
+        for (Player player : players) {
             CardDeck[] cardDecks = new CardDeck[numDecks];
             for (int d = 0; d < numDecks; d++) {
                 CardDeck cardDeck = new CardDeck();
                 cardBag.assignCardsToDeck(cardDeck, cardsPerDeck);
                 cardDecks[d] = cardDeck;
             }
-            players[p].setCardDecks(cardDecks);
+            player.setCardDecks(cardDecks);
         }
     }
 
@@ -70,6 +74,10 @@ public class PokerGame {
         return players;
     }
 
+    public void setPlayers(Player[] players) {
+        this.players = players;
+    }
+
     public int getTurnMonitor() {
         return turnMonitor;
     }
@@ -78,30 +86,47 @@ public class PokerGame {
         this.turnMonitor = turnMonitor;
     }
 
-    public int getWinningResult() {
-        return winningResult;
+    public int getDesiredCalculationResult() {
+        return desiredCalculationResult;
     }
 
-    public void setWinningResult(int winningResult) {
-        this.winningResult = winningResult;
+    public void setDesiredCalculationResult(int desiredCalculationResult) {
+        this.desiredCalculationResult = desiredCalculationResult;
+    }
+
+    public LinkedList<ActionRecord> getActionRecordList() {
+        return actionRecordList;
+    }
+
+    public void setActionRecordList(LinkedList<ActionRecord> actionRecordList) {
+        this.actionRecordList = actionRecordList;
     }
 
     /* Other methods that help the game facilitates */
 
     public boolean isGameEnded() { // game ends when all players run out of cards
-        for (Player player : players)
-            if (!player.hasNoCard())
-                return false;
-        return true;
+        /* to be implemented */
+        return false;
+    }
+
+    public Player getCurrentPlayer() {
+        return players[turnMonitor];
     }
 
     public Player getNextPlayer() { // return the player that should be playing for the next turn (AUTO-increment solely by this method call)
-        return players[incrementTurnMonitor()];
+        return players[(turnMonitor + 1) % numPlayers];
     }
 
-    private int incrementTurnMonitor() {
-        return (turnMonitor + 1) % numPlayers;
-    } // helper of getNextPlayer
+    public Player getPreviousPlayer() {
+        if (turnMonitor > 0)
+            return players[turnMonitor - 1];
+        else
+            return players[players.length - 1];
+    }
+
+    public void incrementTurnMonitor() {
+        turnMonitor = (turnMonitor + 1) % numPlayers;
+    }
 
     public String decksOfCurrentPlayerToString() {
         return players[turnMonitor].decksToString();
