@@ -5,7 +5,11 @@
 - Used to evaluate the result of arithmatic infix expressions
 ### Deque (Data Structure) ###
 - Used to resemble a deck of cards
-- Fits this game by enabling access to both the top and bottom of the deck.
+- Fits this game by enabling access to both the top and bottom of the deck
+###Interface###
+- Java provides interfaces for many data structures
+- Iterable: Enable for-each loop for a data structure
+- Iterator: Usually would override next and hasNext method (so the for-each loop calls them in the background)
 ### Abstract keyword ###
 - Abstract superclass preferred over interface when wanting to inherit non-constant fields
 - Abstract methods used for forcing subclasses to override them
