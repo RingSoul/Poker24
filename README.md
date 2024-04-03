@@ -6,7 +6,7 @@
 ### Deque (Data Structure) ###
 - Used to resemble a deck of cards
 - Fits this game by enabling access to both the top and bottom of the deck
-###Interface###
+### Interface ###
 - Java provides interfaces for many data structures
 - Iterable: Enable for-each loop for a data structure
 - Iterator: Usually would override next and hasNext method (so the for-each loop calls them in the background)
